@@ -13,8 +13,6 @@ using namespace cv;
 int main(){  
 
     Mat img = imread("face.png", IMREAD_COLOR);
-    cout << "Width: " << img.size().width << endl;
-    cout << "Height: " << img.size().height << endl;
 
     Mat imgGrayScale;
     cvtColor(img, imgGrayScale, COLOR_BGR2GRAY);
@@ -22,6 +20,7 @@ int main(){
     Mat black;
     inRange(imgGrayScale, 127, 255, black);  
 
+    // Transformando Mat em array
     vector<uchar> array;
     if (black.isContinuous()) {
         array.assign(black.data, black.data + black.total()*black.channels());
@@ -39,15 +38,15 @@ int main(){
         if(referencia[i] == 255){
             referencia[i] = 1;
         }
-    }  
+    } 
 
-    const int nGene = array.size();
-
+    // Algoritmo Genetico
+    const int nGene = array.size();                 // numero de genes por individuo
     int fitMedioGer = 0, fitGer = 0, fitInd = 0;    // fitness medio e total da geracao e fitness de individuo
-    int fitMInd = -1, mInd = -1;             // fitness e numero do melhor individuo
-    int fitPInd = 100, pInd = -1;            // fitness e numero do pior individuo
-    int pop[nInd][nGene];    // matriz de individuos de uma geracao (populacao)
-    uint8_t imgFinal[10][10];
+    int fitMInd = -1, mInd = -1;                    // fitness e numero do melhor individuo
+    int fitPInd = 100, pInd = -1;                   // fitness e numero do pior individuo
+    int pop[nInd][nGene];                           // matriz de individuos de uma geracao (populacao)
+    uint8_t imgFinal[10][10];                       // matriz que armazenara a imagem final
 
     // Criacao da populacao inicial
     srand(time(NULL));    
@@ -78,7 +77,7 @@ int main(){
                     fitInd++;
                 }
             }
-        //    cout << "Fitness do indivíduo " << j << ": " << fitInd << endl;
+        //    cout << "Fitness do individuo " << j << ": " << fitInd << endl;
             if(fitInd > fitMInd){
                 fitMInd = fitInd;
                 mInd = j;
@@ -90,7 +89,7 @@ int main(){
             fitInd = 0;
         }
 
-        // Croosover entre o melhor e os outros
+        // Croosover
         int corte = rand()%nGene;
         for(int j = 0; j < nInd; j++){
             for(int i = 0; i < corte; i++){
@@ -98,10 +97,10 @@ int main(){
             }
         }
         
-        // Mutacao todos menos o melhor individuo
+        // Mutacao
         if (rand()%11 < 7) {                     // probabilidade de mutacao
             for(int j = 0; j < nInd; j++){
-                if(j != mInd){
+                if(j != mInd){                          // nao muta o melhor individuo
                     int pontoMutacao = rand()%nGene;    // muta um gene aleatorio
                     if(pop[j][pontoMutacao] == 1){
                         pop[j][pontoMutacao] = 0;
@@ -124,10 +123,12 @@ int main(){
         //cout << "Fitness medio da geração: " << fitMedioGer << endl;
         fitGer = 0;
         
+        // Encerra antes caso chegue ao caso ideal
         if(fitMedioGer == nGene)
             break;
     }
 
+    // Transforma o array binario em matriz de cores (branco e preto, por enquanto)
     int k = 0;
     for(int j = 0; j < 10; j++){
         for(int i = 0; i < 10; i++){
@@ -138,12 +139,14 @@ int main(){
         }
     }
 
+    // Transforma a matriz em imagem e mostra
     Mat finalImg = Mat(10, 10, CV_8U, &imgFinal);
     namedWindow("Imagem Final", WINDOW_NORMAL);
     imshow("Imagem Final", finalImg);
     waitKey(0);
     destroyAllWindows();
 
+    // Visualizar imagem original
    /* namedWindow("Original", WINDOW_NORMAL);
     namedWindow("Gray Scale", WINDOW_NORMAL);
     namedWindow("Black", WINDOW_NORMAL);
@@ -154,5 +157,6 @@ int main(){
     destroyWindow("Original");
     destroyWindow("Gray Scale");
     destroyWindow("Black");*/
+
     return 0;
 }
