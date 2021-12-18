@@ -1,3 +1,0 @@
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/CMakeFiles/rebuild_cache.dir
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/CMakeFiles/edit_cache.dir
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/CMakeFiles/main.dir
