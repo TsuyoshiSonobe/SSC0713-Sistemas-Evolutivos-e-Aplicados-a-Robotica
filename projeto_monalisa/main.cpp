@@ -61,7 +61,7 @@ int main(){
     for(int g = 0; g < nGer; g++){    
 
         // Imprimindo a populacao da geracao
-        cout << "Geração " << g << endl;
+        //cout << "Geração " << g << endl;
         /*for(int j = 0; j < nInd; j++){
             cout << "Individuo " << j << endl;
             for(int i = 0; i < nGene; i++){
@@ -119,7 +119,7 @@ int main(){
         }
 
         // Resultados da geracao
-        cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
+        //cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
         fitMedioGer = (fitGer/nInd);       
         //cout << "Fitness medio da geração: " << fitMedioGer << endl;
         fitGer = 0;
