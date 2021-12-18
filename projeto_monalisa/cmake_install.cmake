@@ -1,4 +1,4 @@
-# Install script for directory: /home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/projeto_monalisa
+# Install script for directory: /home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/projeto_monalisa/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

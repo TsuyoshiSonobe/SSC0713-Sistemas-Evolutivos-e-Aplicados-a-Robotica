@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/projeto_monalisa/main.cpp
+/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/main.cpp
 iostream
 -
 opencv2/highgui/highgui.hpp
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/projeto_monalisa/opencv2/highgui/highgui.hpp
+/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
-/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/projeto_monalisa/opencv2/imgproc/imgproc.hpp
+/home/tsuyoshi/Documents/Graduacao/Sistemas evolutivos/SSC0713-SistemasEvolutivos/projeto_monalisa/opencv2/imgproc/imgproc.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h
