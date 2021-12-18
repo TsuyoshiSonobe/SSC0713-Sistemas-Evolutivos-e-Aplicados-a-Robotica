@@ -47,6 +47,7 @@ int main(){
     int fitPInd = 100, pInd = -1;                   // fitness e numero do pior individuo
     int pop[nInd][nGene];                           // matriz de individuos de uma geracao (populacao)
     uint8_t imgFinal[10][10];                       // matriz que armazenara a imagem final
+    Mat finalImg;
 
     // Criacao da populacao inicial
     srand(time(NULL));    
@@ -60,8 +61,8 @@ int main(){
     for(int g = 0; g < nGer; g++){    
 
         // Imprimindo a populacao da geracao
-        /*cout << "Geração " << g << endl;
-        for(int j = 0; j < nInd; j++){
+        cout << "Geração " << g << endl;
+        /*for(int j = 0; j < nInd; j++){
             cout << "Individuo " << j << endl;
             for(int i = 0; i < nGene; i++){
                 cout << pop[j][i] << " ";
@@ -118,31 +119,34 @@ int main(){
         }
 
         // Resultados da geracao
-        //cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
+        cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
         fitMedioGer = (fitGer/nInd);       
         //cout << "Fitness medio da geração: " << fitMedioGer << endl;
         fitGer = 0;
         
-        // Encerra antes caso chegue ao caso ideal
-        if(fitMedioGer == nGene)
+        // Transforma o array binario em matriz de cores (branco e preto, por enquanto)
+        int k = 0;
+        for(int j = 0; j < 10; j++){
+            for(int i = 0; i < 10; i++){
+                imgFinal[j][i] = pop[mInd][k];
+                k++;
+                if(imgFinal[j][i] == 1)
+                    imgFinal[j][i] = 255;
+            }
+        }
+
+        // Transforma a matriz em imagem e mostra
+        finalImg = Mat(10, 10, CV_8U, &imgFinal);
+        namedWindow("Imagem Final", WINDOW_NORMAL);
+        imshow("Imagem Final", finalImg);
+        waitKey(100);
+        
+        // Encerra antes caso o melhor individuo seja o ideal
+        if(fitMInd == nGene)
             break;
     }
 
-    // Transforma o array binario em matriz de cores (branco e preto, por enquanto)
-    int k = 0;
-    for(int j = 0; j < 10; j++){
-        for(int i = 0; i < 10; i++){
-            imgFinal[j][i] = pop[mInd][k];
-            k++;
-            if(imgFinal[j][i] == 1)
-                imgFinal[j][i] = 255;
-        }
-    }
-
-    // Transforma a matriz em imagem e mostra
-    Mat finalImg = Mat(10, 10, CV_8U, &imgFinal);
-    namedWindow("Imagem Final", WINDOW_NORMAL);
-    imshow("Imagem Final", finalImg);
+    // Fica parado na imagem final ate que seja pressionada uma tecla
     waitKey(0);
     destroyAllWindows();
 
