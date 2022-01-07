@@ -60,7 +60,7 @@ int main(){
     for(int g = 0; g < nGer; g++){    
 
         // Imprimindo a populacao da geracao
-        cout << "Geração " << g << endl;
+        //cout << "Geração " << g << endl;
         /*for(int i = 0; i < nInd; i++){
             cout << "Individuo " << i << endl;
             for(int j = 0; j < nGene; j++){
@@ -118,10 +118,10 @@ int main(){
         }
 
         // Resultados da geracao
-        cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
+        /*cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
         fitMedioGer = (fitGer/nInd);       
         cout << "Fitness medio da geração: " << fitMedioGer << endl;
-        fitGer = 0; 
+        fitGer = 0;*/ 
         
         // Transforma o array binario em matriz de cores (branco e preto, por enquanto)
         int k = 0;
