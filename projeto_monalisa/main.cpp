@@ -5,12 +5,10 @@
 using namespace std;
 using namespace cv;
 
-#define nGer 500         // Numero de geracoes
-#define nInd 50         // Numero de individuos em uma geracao  
-//#define nGene 100         // Numero de genes por individuo
-#define taxMut 5        // Taxa de mutacao
+#define nGer 500        // Numero de geracoes
+#define nInd 50         // Numero de individuos em uma geracao
 
-int main(){  
+int main(){
 
     Mat img = imread("face.png", IMREAD_COLOR);
 
@@ -31,9 +29,9 @@ int main(){
         }
     }
 
-    int referencia[array.size()];
+    int *referencia = new int[array.size()];
     copy(array.begin(), array.end(), referencia);
-    
+
     for(int i = 0; i < array.size(); i++){
         if(referencia[i] == 255){
             referencia[i] = 1;
@@ -44,16 +42,17 @@ int main(){
     const int nGene = array.size();                 // numero de genes por individuo
     int fitMedioGer = 0, fitGer = 0, fitInd = 0;    // fitness medio e total da geracao e fitness de individuo
     int fitMInd = -1, mInd = -1;                    // fitness e numero do melhor individuo
-    int fitPInd = 100, pInd = -1;                   // fitness e numero do pior individuo
-    int pop[nInd][nGene];                           // matriz de individuos de uma geracao (populacao)
-    uint8_t imgFinal[10][10];                       // matriz que armazenara a imagem final
+    int fitPInd = nGene, pInd = -1;                   // fitness e numero do pior individuo
+    int *pop = new int[nInd * nGene];               // matriz de individuos de uma geracao (populacao)
+    int tamImgFinal = sqrt(array.size());           // tamanho das dimensoes da imagem final (imagem quadrada)
+    uint8_t *imgFinal = new uint8_t[tamImgFinal * tamImgFinal]; // matriz que armazenara a imagem final
     Mat finalImg;
 
     // Criacao da populacao inicial
     srand(time(NULL));    
-    for(int j = 0; j < nInd; j++){          
-        for(int i = 0; i < nGene; i++){
-            pop[j][i] = rand() % 2;
+    for(int i = 0; i < nInd; i++){          
+        for(int j = 0; j < nGene; j++){
+            pop[i * nGene + j] = rand() % 2;
         }
     }
     
@@ -61,94 +60,93 @@ int main(){
     for(int g = 0; g < nGer; g++){    
 
         // Imprimindo a populacao da geracao
-        //cout << "Geração " << g << endl;
-        /*for(int j = 0; j < nInd; j++){
-            cout << "Individuo " << j << endl;
-            for(int i = 0; i < nGene; i++){
-                cout << pop[j][i] << " ";
+        cout << "Geração " << g << endl;
+        /*for(int i = 0; i < nInd; i++){
+            cout << "Individuo " << i << endl;
+            for(int j = 0; j < nGene; j++){
+                cout << pop[i * nGene + j] << " ";
             }
             cout << endl;
         }*/
-
+        
         // Avaliacao e selecao da populacao da geracao
-        for(int j = 0; j < nInd; j++){           // passando por cada individuo
-            for(int i = 0; i < nGene; i++){      // passando por cada gene do individuo
-                if(pop[j][i] == referencia[i]){
+        for(int i = 0; i < nInd; i++){           // passando por cada individuo
+            for(int j = 0; j < nGene; j++){      // passando por cada gene do individuo
+                if(pop[i * nGene + j] == referencia[j]){
                     fitGer++;
                     fitInd++;
                 }
             }
-        //    cout << "Fitness do individuo " << j << ": " << fitInd << endl;
+        //    cout << "Fitness do individuo " << i << ": " << fitInd << endl;
             if(fitInd > fitMInd){
                 fitMInd = fitInd;
-                mInd = j;
+                mInd = i;
             }
             if(fitInd < fitPInd){
                 fitPInd = fitInd;
-                pInd = j;
+                pInd = i;
             }
             fitInd = 0;
         }
-
+        
         // Croosover
         int corte = rand()%nGene;
-        for(int j = 0; j < nInd; j++){
-            for(int i = 0; i < corte; i++){
-                pop[j][i] = pop[mInd][i];
+        for(int i = 0; i < nInd; i++){
+            for(int j = 0; j < corte; j++){
+                pop[i * nGene + j] = pop[mInd * nGene + j];
             }
         }
         
         // Mutacao
         if (rand()%11 < 7) {                     // probabilidade de mutacao
-            for(int j = 0; j < nInd; j++){
-                if(j != mInd){                          // nao muta o melhor individuo
-                    int pontoMutacao = rand()%nGene;    // muta um gene aleatorio
-                    if(pop[j][pontoMutacao] == 1){
-                        pop[j][pontoMutacao] = 0;
+            for(int i = 0; i < nInd; i++){
+                if(i != mInd){                              // nao muta o melhor individuo
+                    int pontoMutacao = rand()%nGene;        // muta um gene aleatorio
+                    if(pop[i * nGene + pontoMutacao] == 1){
+                        pop[i * nGene + pontoMutacao] = 0;
                     }
                     else{
-                        pop[j][pontoMutacao] = 1;
+                        pop[i * nGene + pontoMutacao] = 1;
                     }
                 }
             }
         }
 
         // Trocando o pior individuo pelo melhor
-        for(int i = 0; i < nGene; i++){
-            pop[pInd][i] = pop[mInd][i];
+        for(int j = 0; j < nGene; j++){
+            pop[pInd * nGene + j] = pop[mInd * nGene + j];
         }
 
         // Resultados da geracao
-        //cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
+        cout << "Numero do melhor individuo da geracao: " << mInd << " -> Fitness: " << fitMInd << endl;
         fitMedioGer = (fitGer/nInd);       
-        //cout << "Fitness medio da geração: " << fitMedioGer << endl;
-        fitGer = 0;
+        cout << "Fitness medio da geração: " << fitMedioGer << endl;
+        fitGer = 0; 
         
         // Transforma o array binario em matriz de cores (branco e preto, por enquanto)
         int k = 0;
-        for(int j = 0; j < 10; j++){
-            for(int i = 0; i < 10; i++){
-                imgFinal[j][i] = pop[mInd][k];
+        for(int i = 0; i < tamImgFinal; i++){
+            for(int j = 0; j < tamImgFinal; j++){
+                imgFinal[i * tamImgFinal + j] = pop[mInd * nGene + k];
                 k++;
-                if(imgFinal[j][i] == 1)
-                    imgFinal[j][i] = 255;
+                if(imgFinal[i * tamImgFinal + j] == 1)
+                    imgFinal[i * tamImgFinal + j] = 255;
             }
         }
 
         // Transforma a matriz em imagem e mostra
-        finalImg = Mat(10, 10, CV_8U, &imgFinal);
+        /*finalImg = Mat(tamImgFinal, tamImgFinal, CV_8U, imgFinal);
         namedWindow("Imagem Final", WINDOW_NORMAL);
         imshow("Imagem Final", finalImg);
-        waitKey(100);
+        waitKey(1);*/
         
         // Encerra antes caso o melhor individuo seja o ideal
         if(fitMInd == nGene)
             break;
     }
 
-    // Fica parado na imagem final ate que seja pressionada uma tecla
-    waitKey(0);
-    destroyAllWindows();
+    // waitKey(0);
+    // destroyAllWindows();
 
     // Visualizar imagem original
    /* namedWindow("Original", WINDOW_NORMAL);
@@ -161,6 +159,9 @@ int main(){
     destroyWindow("Original");
     destroyWindow("Gray Scale");
     destroyWindow("Black");*/
+    
+    delete [] imgFinal;
+    delete [] referencia;
 
     return 0;
 }
