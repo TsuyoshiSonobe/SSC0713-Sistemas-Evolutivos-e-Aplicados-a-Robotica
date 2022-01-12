@@ -54,8 +54,8 @@ int main(){
     int fitMedioGer = 0, fitGer = 0, fitInd = 0;        // fitness medio e total da geracao e fitness de individuo
     int fitMInd = -1000000, mInd = -1;                  // fitness e numero do melhor individuo
     int fitPInd = nGene, pInd = -1;                     // fitness e numero do pior individuo
-    int *pop = new int[nInd * nGene];                   // matriz de individuos de uma geracao (populacao)
-    int *popAtual = new int[nInd * nGeneAvaliados];     // matriz de individuos com parte dos genes (os que estao sendo avaliados)
+    int *pop = new int[nInd * nGene];                   // matriz de individuos de uma geracao com todos os genes
+    int *popAtual = new int[nInd * nGeneAvaliados];     // matriz de individuos de uma geracao com parte dos genes (apenas os que estao sendo avaliados)
     int tamImgFinal = sqrt(array.size());               // tamanho das dimensoes da imagem final (imagem quadrada)
     uint8_t *imgFinal = new uint8_t[tamImgFinal * tamImgFinal]; // matriz que armazenara a imagem final
     Mat finalImg;                                       // objeto que armazenara a imagem final para ser mostrada
