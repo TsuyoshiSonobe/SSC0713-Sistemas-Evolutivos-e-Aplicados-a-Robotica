@@ -47,7 +47,7 @@ int main(){
     }
 
     
-    // Algoritmo Evolutivo
+    // Algoritmo Genetico
     const int nGene = array.size();                     // numero de genes por individuo
     const int nAvaliacoes = 2000;                       // numero de avaliacoes realizadas
     const int nGeneAvaliados = nGene/nAvaliacoes;       // numero de genes avaliados por vez
@@ -155,7 +155,7 @@ int main(){
             // Gravando a geração, melhor indivíduo, nota dele e a nota média da geração
             fprintf(file1,"%d,%d,%d,%d\n", g ,mInd, fitMInd, fitMedioGer);
             
-            // Coloca os individuos da populacao atual na matriz que contem toda a populacao com todos os genes
+            // Coloca os individuos da populacao atual na matriz que contem a populacao com todos os genes
             for(int i = 0; i < nInd; i++){ 
                 aux = nGeneAvaliados*n;         
                 for(int j = 0; j < nGeneAvaliados; j++){
